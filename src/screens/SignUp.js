@@ -8,32 +8,54 @@ import {
 } from "react-native";
 import MaterialUnderlineTextbox from "../components/MaterialUnderlineTextbox";
 import Icon from "react-native-vector-icons/Entypo";
+import * as Permissions from "expo-permissions";
+import { Camera } from "expo-camera";
 
-function SignUp(props) {
-  return (
-    <View style={styles.container}>
-      <StatusBar backgroundColor="blue" barStyle="light-content" />
-      <Text style={styles.centralWallet}>Central Wallet</Text>
-      <View style={styles.registrationForm}>
-        <MaterialUnderlineTextbox
-          textInput1="Name"
-          style={styles.name}
-        ></MaterialUnderlineTextbox>
-        <TouchableOpacity style={styles.button}>
-          <View style={styles.iconRow}>
-            <Icon name="image" style={styles.icon}></Icon>
-            <Text style={styles.uploadImage}>Upload Image</Text>
-          </View>
+class SignUp extends Component {
+  constructor(props) {
+    super(props);
+  }
+
+  async componentDidMount() {}
+
+  getPermissionAsync = async () => {
+    if (Constants.platform.ios) {
+      const { status } = await Permissions.askAsync(Permissions.CAMERA_ROLL);
+      if (status !== "granted") {
+        alert("Sorry, we need camera roll permissions to make this work!");
+      }
+    }
+  };
+
+  render() {
+    return (
+      <View style={styles.container}>
+        <StatusBar backgroundColor="blue" barStyle="light-content" />
+        <Text style={styles.centralWallet}>Central Wallet</Text>
+        <View style={styles.registrationForm}>
+          <MaterialUnderlineTextbox
+            textInput1="Name"
+            style={styles.name}
+          ></MaterialUnderlineTextbox>
+          <TouchableOpacity
+            style={styles.button}
+            onPress={() => this.props.navigation.navigate("CameraScreen")}
+          >
+            <View style={styles.iconRow}>
+              <Icon name="image" style={styles.icon}></Icon>
+              <Text style={styles.uploadImage}>Upload Image</Text>
+            </View>
+          </TouchableOpacity>
+        </View>
+        <TouchableOpacity
+          style={styles.logIn}
+          onPress={() => this.props.navigation.navigate("Log")}
+        >
+          <Text style={styles.getStarted}>Get started</Text>
         </TouchableOpacity>
       </View>
-      <TouchableOpacity
-        style={styles.logIn}
-        onPress={() => props.navigation.navigate("Log")}
-      >
-        <Text style={styles.getStarted}>Get started</Text>
-      </TouchableOpacity>
-    </View>
-  );
+    );
+  }
 }
 
 const styles = StyleSheet.create({

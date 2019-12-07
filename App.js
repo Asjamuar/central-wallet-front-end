@@ -6,6 +6,7 @@ import { AppLoading } from "expo";
 import * as Font from "expo-font";
 import SignUp from "./src/screens/SignUp";
 import Log from "./src/screens/Log";
+import CameraScreen from "./src/screens/CameraScreen";
 
 const DrawerNavigation = createDrawerNavigator({ Log: Log });
 
@@ -15,7 +16,8 @@ const StackNavigation = createStackNavigator(
     DrawerNavigation: {
       screen: DrawerNavigation
     },
-    Log: Log
+    Log: Log,
+    CameraScreen: CameraScreen
   },
   {
     headerMode: "none"
